@@ -2,7 +2,7 @@
 
 Professional high-contrast dark theme portfolio application for **PL Weerarathna** (Graphic Designer & Digital Print Specialist at Sudarshana Advertising).
 
-Deployed on Vercel: [https://pl-weerarathna-portfolio.vercel.app/](https://pl-weerarathna-portfolio.vercel.app/)  
+Deployed on Vercel: [https://pl-weerarathna-portfolio.vercel.app/](https://plweerararthna.vercel.app/)  
 GitHub Repository: [https://github.com/IT21826740/pl-weerarathna-portfolio](https://github.com/IT21826740/pl-weerarathna-portfolio)
 
 ---
