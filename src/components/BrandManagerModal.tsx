@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, Globe, Plus, Trash2, Edit3, Check, RefreshCw, ExternalLink, Sparkles, AlertCircle } from 'lucide-react';
+import { X, Globe, Plus, Trash2, Edit3, Check, RefreshCw, ExternalLink, AlertCircle } from 'lucide-react';
 import { Brand } from '../types/portfolio';
-import { extractCleanDomain, getOfficialWebsiteLogoUrl, getAlternativeLogoUrl } from '../utils/brandLogos';
+import { extractCleanDomain } from '../utils/brandLogos';
+import { BrandLogo } from './BrandLogo';
 
 interface BrandManagerModalProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ export const BrandManagerModal: React.FC<BrandManagerModalProps> = ({
   // Form states for add / edit
   const [name, setName] = useState('');
   const [website, setWebsite] = useState('');
+  const [customLogoUrl, setCustomLogoUrl] = useState('');
   const [category, setCategory] = useState<Brand['category']>('retail');
   const [scope, setScope] = useState('');
   const [year, setYear] = useState('2024 - Present');
@@ -37,13 +39,13 @@ export const BrandManagerModal: React.FC<BrandManagerModalProps> = ({
   if (!isOpen) return null;
 
   const currentCleanDomain = extractCleanDomain(website);
-  const livePreviewLogoUrl = currentCleanDomain ? getOfficialWebsiteLogoUrl(currentCleanDomain, 128) : '';
 
   const startAddBrand = () => {
     setIsAddingNew(true);
     setEditingBrand(null);
     setName('');
     setWebsite('https://');
+    setCustomLogoUrl('');
     setCategory('retail');
     setScope('Packaging & Brand Identity');
     setYear('2024 - 2026');
@@ -57,6 +59,7 @@ export const BrandManagerModal: React.FC<BrandManagerModalProps> = ({
     setIsAddingNew(true);
     setName(b.name);
     setWebsite(b.website);
+    setCustomLogoUrl(b.customLogoUrl || '');
     setCategory(b.category);
     setScope(b.scope);
     setYear(b.year);
@@ -86,6 +89,7 @@ export const BrandManagerModal: React.FC<BrandManagerModalProps> = ({
       year: year.trim() || '2024 - Present',
       notes: notes.trim(),
       featured,
+      customLogoUrl: customLogoUrl.trim() || undefined,
     };
 
     let newBrandsList: Brand[];
@@ -198,16 +202,14 @@ export const BrandManagerModal: React.FC<BrandManagerModalProps> = ({
               {currentCleanDomain && (
                 <div className="p-3.5 bg-zinc-950 border border-zinc-800 rounded-xl flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center p-2 relative overflow-hidden">
-                      <img
-                        src={livePreviewLogoUrl}
-                        alt="Logo Preview"
-                        className="w-full h-full object-contain"
-                        onLoad={() => setTestLogoLoaded(true)}
-                        onError={() => setTestLogoLoaded(false)}
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
+                    <BrandLogo
+                      name={name || currentCleanDomain}
+                      domain={currentCleanDomain}
+                      customLogoUrl={customLogoUrl}
+                      size={128}
+                      className="w-12 h-12 rounded-lg"
+                      onStatusChange={(loaded) => setTestLogoLoaded(loaded)}
+                    />
                     <div>
                       <div className="text-xs font-medium text-white flex items-center gap-2">
                         <span>Domain Detected: <span className="font-mono text-amber-400">{currentCleanDomain}</span></span>
@@ -278,6 +280,18 @@ export const BrandManagerModal: React.FC<BrandManagerModalProps> = ({
               </div>
 
               <div>
+                <label className="block text-xs font-medium text-zinc-300 mb-1">Custom Logo Image URL (Optional)</label>
+                <input
+                  type="url"
+                  placeholder="https://example.com/logo.png (leave blank for automatic website sync)"
+                  value={customLogoUrl}
+                  onChange={(e) => {
+                    setCustomLogoUrl(e.target.value);
+                    setTestLogoLoaded(null);
+                  }}
+                  className="w-full px-3 py-2 bg-zinc-950 border border-zinc-700 rounded-lg text-xs text-white focus:outline-none focus:border-amber-500 font-mono mb-3"
+                />
+
                 <label className="block text-xs font-medium text-zinc-300 mb-1">Project Details / Portfolio Notes</label>
                 <textarea
                   rows={2}
@@ -334,31 +348,19 @@ export const BrandManagerModal: React.FC<BrandManagerModalProps> = ({
 
           {/* List of current brands */}
           <div className="space-y-2">
-            {brands.map((brand) => {
-              const logoUrl = getOfficialWebsiteLogoUrl(brand.domain, 64);
-              return (
+            {brands.map((brand) => (
                 <div
                   key={brand.id}
                   className="flex items-center justify-between p-3.5 bg-zinc-950/60 hover:bg-zinc-900 border border-zinc-800/80 rounded-xl transition-colors group"
                 >
                   <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="w-10 h-10 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center p-1.5 shrink-0 overflow-hidden">
-                      <img
-                        src={logoUrl}
-                        alt={`${brand.name} logo`}
-                        className="w-full h-full object-contain"
-                        onError={(e) => {
-                          // SVG monogram fallback
-                          const target = e.currentTarget;
-                          target.style.display = 'none';
-                          const parent = target.parentElement;
-                          if (parent) {
-                            parent.innerHTML = `<span class="text-xs font-bold font-mono text-amber-400">${brand.name.substring(0, 2).toUpperCase()}</span>`;
-                          }
-                        }}
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
+                    <BrandLogo
+                      name={brand.name}
+                      domain={brand.domain}
+                      customLogoUrl={brand.customLogoUrl}
+                      size={64}
+                      className="w-10 h-10 rounded-lg"
+                    />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-semibold text-white truncate">{brand.name}</span>
@@ -398,8 +400,7 @@ export const BrandManagerModal: React.FC<BrandManagerModalProps> = ({
                     </button>
                   </div>
                 </div>
-              );
-            })}
+            ))}
           </div>
         </div>
 

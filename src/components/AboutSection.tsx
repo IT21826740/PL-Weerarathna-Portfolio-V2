@@ -39,7 +39,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ milestone, onOpenExp
             </p>
 
             <p className="text-sm text-zinc-400 leading-relaxed">
-              My technical background bridges aesthetic brand design and industrial manufacturing: from Pantone spot inks, 4-color offset pre-press separations, and die-cutting plate engineering to AutoCAD 3D visualizations and full vehicular wraps.
+              My technical background bridges digital brand design and industrial print manufacturing—ranging from RGB digital workflows to CMYK 4-color offset pre-press separations, Pantone spot inks, die-cutting plate engineering, and full vehicular wraps.
             </p>
 
             {/* Core Capability Pillars */}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ExternalLink, Search, Sparkles, SlidersHorizontal, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { Search, Sparkles, SlidersHorizontal, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { Brand } from '../types/portfolio';
-import { getOfficialWebsiteLogoUrl } from '../utils/brandLogos';
+import { BrandLogo } from './BrandLogo';
 
 interface BrandsSectionProps {
   brands: Brand[];
@@ -115,9 +115,7 @@ export const BrandsSection: React.FC<BrandsSectionProps> = ({ brands, onOpenBran
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredBrands.map((brand) => {
-              const officialLogoUrl = getOfficialWebsiteLogoUrl(brand.domain, 128);
-              return (
+            {filteredBrands.map((brand) => (
                 <div
                   key={brand.id}
                   className="group relative bg-[#121215] hover:bg-[#16161b] border border-zinc-800 hover:border-zinc-700/80 rounded-2xl p-5 transition-all duration-200 flex flex-col justify-between"
@@ -125,23 +123,13 @@ export const BrandsSection: React.FC<BrandsSectionProps> = ({ brands, onOpenBran
                   <div>
                     {/* Brand Card Top: Synced Logo and External Link */}
                     <div className="flex items-start justify-between gap-3 mb-4">
-                      <div className="w-14 h-14 rounded-xl bg-zinc-900/90 border border-zinc-800 p-2.5 flex items-center justify-center shrink-0 group-hover:border-amber-500/40 transition-colors">
-                        <img
-                          src={officialLogoUrl}
-                          alt={`${brand.name} logo`}
-                          className="w-full h-full object-contain filter group-hover:scale-105 transition-transform"
-                          onError={(e) => {
-                            const target = e.currentTarget;
-                            target.style.display = 'none';
-                            const parent = target.parentElement;
-                            if (parent) {
-                              parent.innerHTML = `<span class="text-base font-extrabold font-mono text-amber-400 tracking-wider">${brand.name.substring(0, 2).toUpperCase()}</span>`;
-                            }
-                          }}
-                          referrerPolicy="no-referrer"
-                          loading="lazy"
-                        />
-                      </div>
+                      <BrandLogo
+                        name={brand.name}
+                        domain={brand.domain}
+                        customLogoUrl={brand.customLogoUrl}
+                        size={128}
+                        className="w-14 h-14 rounded-xl group-hover:border-amber-500/40 transition-colors"
+                      />
 
                       <a
                         href={brand.website}
@@ -185,8 +173,7 @@ export const BrandsSection: React.FC<BrandsSectionProps> = ({ brands, onOpenBran
                     </span>
                   </div>
                 </div>
-              );
-            })}
+            ))}
           </div>
         )}
 

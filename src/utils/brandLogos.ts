@@ -1,6 +1,6 @@
 import { Brand } from '../types/portfolio';
 
-const BRANDS_STORAGE_KEY = 'pl_portfolio_brands_v2';
+const BRANDS_STORAGE_KEY = 'pl_portfolio_brands_v3';
 
 export const INITIAL_BRANDS: Brand[] = [
   {
@@ -17,8 +17,8 @@ export const INITIAL_BRANDS: Brand[] = [
   {
     id: 'b-lanwa',
     name: 'LANWA',
-    website: 'https://lanwa.lk',
-    domain: 'lanwa.lk',
+    website: 'https://www.ceylonsteel.com',
+    domain: 'ceylonsteel.com',
     category: 'industrial',
     scope: 'Industrial Fleet & Heavy Billboard Wraps',
     year: '2022 - 2025',
@@ -122,22 +122,40 @@ export function extractCleanDomain(urlOrDomain: string): string {
 }
 
 /**
- * Returns the primary Google high-res favicon URL that automatically syncs
- * with the company's official website favicon / touch-icon.
+ * Returns an ordered list of reliable logo/favicon URLs for a domain.
+ */
+export function getBrandLogoCandidates(domain: string, size = 128, customLogoUrl?: string): string[] {
+  const candidates: string[] = [];
+  if (customLogoUrl?.trim()) {
+    candidates.push(customLogoUrl.trim());
+  }
+  const cleanDomain = extractCleanDomain(domain);
+  if (cleanDomain) {
+    candidates.push(
+      `https://www.google.com/s2/favicons?domain=${encodeURIComponent(cleanDomain)}&sz=${size}`,
+      `https://icon.horse/icon/${encodeURIComponent(cleanDomain)}`,
+      `https://icons.duckduckgo.com/ip3/${encodeURIComponent(cleanDomain)}.ico`
+    );
+  }
+  return candidates;
+}
+
+/**
+ * Returns the primary Google high-res favicon URL for a company's official website.
  */
 export function getOfficialWebsiteLogoUrl(domain: string, size = 128): string {
   const cleanDomain = extractCleanDomain(domain);
   if (!cleanDomain) return '';
-  return `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAV&fallback_opts=TYPE,SIZE,URL&url=https://${cleanDomain}&size=${size}`;
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(cleanDomain)}&sz=${size}`;
 }
 
 /**
- * Returns alternative secondary logo provider URL (Clearbit / Unavatar)
+ * Returns alternative secondary logo provider URL
  */
 export function getAlternativeLogoUrl(domain: string): string {
   const cleanDomain = extractCleanDomain(domain);
   if (!cleanDomain) return '';
-  return `https://unavatar.io/${cleanDomain}?fallback=false`;
+  return `https://icon.horse/icon/${encodeURIComponent(cleanDomain)}`;
 }
 
 /**
