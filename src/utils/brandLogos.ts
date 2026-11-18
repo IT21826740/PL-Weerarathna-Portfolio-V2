@@ -10,7 +10,7 @@ export const INITIAL_BRANDS: Brand[] = [
     domain: 'arpico.com',
     category: 'retail',
     scope: 'Retail Brand Collateral & Packaging',
-    year: '2023 - 2026',
+    year: '2025 - 2026',
     featured: true,
     notes: 'Richard Pieris & Company flagship retail brand; large format store branding & packaging collateral.'
   },
@@ -21,7 +21,7 @@ export const INITIAL_BRANDS: Brand[] = [
     domain: 'ceylonsteel.com',
     category: 'industrial',
     scope: 'Industrial Fleet & Heavy Billboard Wraps',
-    year: '2022 - 2025',
+    year: '2025 - 2026',
     featured: true,
     notes: 'Ceylon Steel Corporation; vehicle fleet branding & industrial outdoor display production.'
   },
@@ -32,7 +32,7 @@ export const INITIAL_BRANDS: Brand[] = [
     domain: 'raigam.lk',
     category: 'fmcg',
     scope: 'FMCG Packaging & Point of Sale Graphics',
-    year: '2022 - 2026',
+    year: '2025 - 2026',
     featured: true,
     notes: 'Leading Sri Lankan FMCG brand; food packaging box designs, carton art & retail POS displays.'
   },
@@ -43,7 +43,7 @@ export const INITIAL_BRANDS: Brand[] = [
     domain: 'lassana.com',
     category: 'retail',
     scope: 'Premium Gift Packaging & Digital Creatives',
-    year: '2023 - 2025',
+    year: '2025 - 2026',
     featured: true,
     notes: 'Luxury floral & confectionery packaging; seasonal campaign brochures & shop signage.'
   },
@@ -54,7 +54,7 @@ export const INITIAL_BRANDS: Brand[] = [
     domain: 'aima.lk',
     category: 'services',
     scope: 'Apparel Identity & Merchandising Tags',
-    year: '2024 - 2026',
+    year: '2025 - 2026',
     featured: true,
     notes: 'Textile branding, garment hangtags, barcode labels & promotional merchandise print setup.'
   },
@@ -65,7 +65,7 @@ export const INITIAL_BRANDS: Brand[] = [
     domain: 'lrh.health.gov.lk',
     category: 'services',
     scope: 'Wayfinding Signage & Public Health Posters',
-    year: '2023 - 2024',
+    year: '2025 - 2026',
     featured: false,
     notes: 'Wayfinding system signage, awareness campaigns, and hospital informational print panels.'
   },
@@ -76,7 +76,7 @@ export const INITIAL_BRANDS: Brand[] = [
     domain: 'sensor.lk',
     category: 'industrial',
     scope: 'Industrial Tech Catalogues & Exhibition Panels',
-    year: '2022 - 2024',
+    year: '2025 - 2026',
     featured: false,
     notes: 'Electronics & automation tech data sheets, equipment labels and trade show booth graphics.'
   },
